@@ -72,57 +72,77 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Voice provider"
+text = "TTS provider"
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="TTSProviderOptionButton" type="OptionButton" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 2
+popup/item_0/text = "gtts"
+popup/item_0/id = 0
+popup/item_1/text = "edge-tts"
+popup/item_1/id = 1
+
+[node name="Panel" type="Panel" parent="VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "one"
+flat = true
+alignment = 0
+
+[node name="Button2" type="Button" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "two"
+alignment = 0
+
+[node name="Button3" type="Button" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "three"
+flat = true
+alignment = 0
+
+[node name="Button4" type="Button" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "four"
+flat = true
+alignment = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Voice configuration settings"
-
-[node name="gttsSettings" type="VBoxContainer" parent="VBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/gttsSettings"]
-layout_mode = 2
-text = "gTTS"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/gttsSettings"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/gttsSettings/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Voice name"
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/VBoxContainer/gttsSettings/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/gttsSettings"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/gttsSettings/HBoxContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 text = "Slow"
 
-[node name="CheckButton" type="CheckButton" parent="VBoxContainer/VBoxContainer/gttsSettings/HBoxContainer2"]
-layout_mode = 2
-
-[node name="edgettsSettings" type="VBoxContainer" parent="VBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/edgettsSettings"]
-layout_mode = 2
-text = "edge TTS"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/edgettsSettings"]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer/edgettsSettings/HBoxContainer"]
-layout_mode = 2
-text = "Voice name"
-
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/VBoxContainer/edgettsSettings/HBoxContainer"]
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 
 [node name="Label3" type="Label" parent="VBoxContainer/VBoxContainer"]
