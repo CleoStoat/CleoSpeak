@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://726f1vsosmqs"]
 
 [ext_resource type="Script" uid="uid://q8gc55wo0jlc" path="res://main.gd" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://douiiyuinttg8" path="res://preset_configuration_tab.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://douiiyuinttg8" path="res://preset_config_tab.tscn" id="2_0xm2m"]
 
 [sub_resource type="AudioStreamMP3" id="AudioStreamMP3_ig7tw"]
 
@@ -67,7 +67,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Submit"
 
-[node name="PresetsTab" parent="PanelContainer/VBoxContainer/MarginContainer" instance=ExtResource("2_0xm2m")]
+[node name="PresetConfigTab" parent="PanelContainer/VBoxContainer/MarginContainer" instance=ExtResource("2_0xm2m")]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -86,3 +86,5 @@ stream = SubResource("AudioStreamMP3_ig7tw")
 [connection signal="tab_changed" from="PanelContainer/VBoxContainer/HBoxContainer/TabBar" to="." method="_on_tab_bar_tab_changed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/TTSTab/VBoxContainer/TTSSubmitButton" to="." method="_on_tts_submit_button_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+
+[editable path="PanelContainer/VBoxContainer/MarginContainer/PresetConfigTab"]

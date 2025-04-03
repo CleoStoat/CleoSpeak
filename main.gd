@@ -2,7 +2,7 @@ extends Control
 
 @onready var tabs_dict = {
 	0: %TTSTab,
-	1: %PresetsTab,
+	1: %PresetConfigTab,
 	2: %ServerTab,
 }
 
