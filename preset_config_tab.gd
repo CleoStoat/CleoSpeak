@@ -61,7 +61,7 @@ func _on_select_preset_option_button_item_selected(index: int) -> void:
 		preset_name_line_edit.text = presets[index].name
 
 
-func _on_preset_name_line_edit_text_submitted(new_text: String) -> void:
+func _on_preset_name_line_edit_text_changed(new_text: String) -> void:
 	var index = select_preset_option_button.selected
 	if index == -1:
 		return
