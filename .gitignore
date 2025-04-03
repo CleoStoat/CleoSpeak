@@ -2,3 +2,5 @@
 .godot/
 /android/
 venv/
+__pycache__/
+temp_audio/

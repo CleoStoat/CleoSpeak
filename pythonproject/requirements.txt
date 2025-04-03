@@ -1,0 +1,4 @@
+edge-tts==7.0.0
+fastapi==0.115.12
+fastapi[standard]
+gTTS==2.5.4
