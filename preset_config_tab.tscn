@@ -28,9 +28,17 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CreateNewPresetButton" type="Button" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="CreateNewPresetButton" type="Button" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
 layout_mode = 2
 text = "Create new"
+
+[node name="DeletePresetButton" type="Button" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Delete selected"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
 layout_mode = 2
@@ -39,13 +47,10 @@ layout_mode = 2
 layout_mode = 2
 text = "Preset name"
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
-layout_mode = 2
-
-[node name="DeletePresetButton" type="Button" parent="VBoxContainer/VBoxContainer2"]
+[node name="PresetNameLineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Delete selected preset"
+size_flags_horizontal = 3
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -164,5 +169,7 @@ text = "Subtitle size"
 layout_mode = 2
 
 [connection signal="presets_changed" from="." to="." method="_on_presets_changed"]
-[connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer/CreateNewPresetButton" to="." method="_on_create_new_preset_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/VBoxContainer2/DeletePresetButton" to="." method="_on_delete_preset_button_pressed"]
+[connection signal="item_selected" from="VBoxContainer/VBoxContainer2/HBoxContainer/SelectPresetOptionButton" to="." method="_on_select_preset_option_button_item_selected"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/CreateNewPresetButton" to="." method="_on_create_new_preset_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/DeletePresetButton" to="." method="_on_delete_preset_button_pressed"]
+[connection signal="text_submitted" from="VBoxContainer/VBoxContainer2/HBoxContainer2/PresetNameLineEdit" to="." method="_on_preset_name_line_edit_text_submitted"]

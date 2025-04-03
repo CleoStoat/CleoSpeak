@@ -2,6 +2,7 @@ extends Control
 
 @onready var select_preset_option_button := %SelectPresetOptionButton
 @onready var delete_preset_button := %DeletePresetButton
+@onready var preset_name_line_edit := %PresetNameLineEdit
 
 signal presets_changed(new_presets: Array[Preset])
 
@@ -51,3 +52,19 @@ func _on_delete_preset_button_pressed() -> void:
 	# Select -1 to clear selection
 	select_preset_option_button.selected = -1
 	
+
+
+func _on_select_preset_option_button_item_selected(index: int) -> void:
+	if index == -1:
+		preset_name_line_edit.text = ""
+	else:
+		preset_name_line_edit.text = presets[index].name
+
+
+func _on_preset_name_line_edit_text_submitted(new_text: String) -> void:
+	var index = select_preset_option_button.selected
+	if index == -1:
+		return
+	else:
+		presets[index].name = new_text
+		repopulate_select_preset()
