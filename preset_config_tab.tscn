@@ -63,10 +63,6 @@ layout_mode = 2
 layout_mode = 2
 text = "Voice configuration"
 
-[node name="Button" type="Button" parent="VBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Reload data from server"
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -85,55 +81,40 @@ popup/item_0/id = 0
 popup/item_1/text = "edge-tts"
 popup/item_1/id = 1
 
-[node name="Panel" type="Panel" parent="VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/VBoxContainer/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button" type="Button" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "one"
-flat = true
-alignment = 0
-
-[node name="Button2" type="Button" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "two"
-alignment = 0
-
-[node name="Button3" type="Button" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "three"
-flat = true
-alignment = 0
-
-[node name="Button4" type="Button" parent="VBoxContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "four"
-flat = true
-alignment = 0
-
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Voice name"
+text = "Selected voice:"
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="SelectedVoiceLabel" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+text = "None"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Search"
+
+[node name="VoiceLanguageLineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VoiceLanguageItemList" type="ItemList" parent="VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+item_count = 5
+item_0/text = "element1"
+item_1/text = "two"
+item_2/text = "3"
+item_3/text = "Four"
+item_4/text = "Cinco"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -142,8 +123,13 @@ layout_mode = 2
 layout_mode = 2
 text = "Slow"
 
-[node name="CheckButton" type="CheckButton" parent="VBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="SlowCheckButton" type="CheckButton" parent="VBoxContainer/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
 layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "(only works with gtts)"
 
 [node name="Label3" type="Label" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -194,3 +180,7 @@ layout_mode = 2
 [connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/CreateNewPresetButton" to="." method="_on_create_new_preset_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/DeletePresetButton" to="." method="_on_delete_preset_button_pressed"]
 [connection signal="text_changed" from="VBoxContainer/VBoxContainer2/HBoxContainer2/PresetNameLineEdit" to="." method="_on_preset_name_line_edit_text_changed"]
+[connection signal="item_selected" from="VBoxContainer/VBoxContainer/HBoxContainer2/TTSProviderOptionButton" to="." method="_on_tts_provider_option_button_item_selected"]
+[connection signal="text_changed" from="VBoxContainer/VBoxContainer/HBoxContainer4/VoiceLanguageLineEdit" to="." method="_on_voice_language_line_edit_text_changed"]
+[connection signal="item_selected" from="VBoxContainer/VBoxContainer/VoiceLanguageItemList" to="." method="_on_voice_language_item_list_item_selected"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/HBoxContainer3/SlowCheckButton" to="." method="_on_slow_check_button_pressed"]
