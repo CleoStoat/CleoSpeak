@@ -170,5 +170,11 @@ func load_preset_for_edit(preset: Preset):
 			voice_language_item_list.select(i)
 	
 	slow_check_button.button_pressed = preset.slow
-	
-	
+
+func save_presets_to_file():
+	var file = FileAccess.open("res://presets.json", FileAccess.WRITE)
+	file.store_string(Preset.serialize(presets))
+
+
+func _on_save_preset_button_pressed() -> void:
+	save_presets_to_file()

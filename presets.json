@@ -1,0 +1,20 @@
+[
+	{
+		"name": "New preset",
+		"slow": false,
+		"voice_language": "en",
+		"voice_provider": "gtts"
+	},
+	{
+		"name": "New preset",
+		"slow": false,
+		"voice_language": "en",
+		"voice_provider": "gtts"
+	},
+	{
+		"name": "New preset",
+		"slow": false,
+		"voice_language": "en",
+		"voice_provider": "gtts"
+	}
+]

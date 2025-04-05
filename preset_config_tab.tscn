@@ -40,6 +40,10 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Delete selected"
 
+[node name="SavePresetButton" type="Button" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
+layout_mode = 2
+text = "Save presets"
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
 layout_mode = 2
 
@@ -180,6 +184,7 @@ layout_mode = 2
 [connection signal="item_selected" from="VBoxContainer/VBoxContainer2/HBoxContainer/SelectPresetOptionButton" to="." method="_on_select_preset_option_button_item_selected"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/CreateNewPresetButton" to="." method="_on_create_new_preset_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/DeletePresetButton" to="." method="_on_delete_preset_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/SavePresetButton" to="." method="_on_save_preset_button_pressed"]
 [connection signal="text_changed" from="VBoxContainer/VBoxContainer2/HBoxContainer2/PresetNameLineEdit" to="." method="_on_preset_name_line_edit_text_changed"]
 [connection signal="item_selected" from="VBoxContainer/VBoxContainer/HBoxContainer2/TTSProviderOptionButton" to="." method="_on_tts_provider_option_button_item_selected"]
 [connection signal="text_changed" from="VBoxContainer/VBoxContainer/HBoxContainer4/VoiceLanguageLineEdit" to="." method="_on_voice_language_line_edit_text_changed"]
