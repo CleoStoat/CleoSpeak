@@ -176,6 +176,7 @@ text = "Subtitle size"
 layout_mode = 2
 
 [connection signal="presets_changed" from="." to="." method="_on_presets_changed"]
+[connection signal="selected_preset_index_changed" from="." to="." method="_on_selected_preset_index_changed"]
 [connection signal="item_selected" from="VBoxContainer/VBoxContainer2/HBoxContainer/SelectPresetOptionButton" to="." method="_on_select_preset_option_button_item_selected"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/CreateNewPresetButton" to="." method="_on_create_new_preset_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/DeletePresetButton" to="." method="_on_delete_preset_button_pressed"]
