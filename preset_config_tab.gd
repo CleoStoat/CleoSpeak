@@ -9,8 +9,10 @@ extends Control
 @onready var slow_check_button := %SlowCheckButton
 @onready var tts_provider_option_button := %TTSProviderOptionButton
 
-const GTTS_VOICE_LANGUAGES = ["one", "two", "three", "four"]
-const EDGE_TTS_VOICE_LANGUAGES = ["1", "2", "3", "4"]
+var edge_tts_raw_voices_list: Array
+var gtts_raw_voices_list: Dictionary
+var gtts_voice_languages = []
+var edge_tts_voice_languages = []
 
 signal presets_changed(new_presets: Array[Preset])
 var _presets: Array[Preset] = []
@@ -43,7 +45,16 @@ var selected_preset: Preset:
 			return presets[index]
 
 func _ready() -> void:
+	for p in read_presets_file():
+		presets.append(Preset.new(p["name"], p["voice_provider"], p["voice_language"], p["slow"]))
 	repopulate_select_preset()
+	
+	edge_tts_raw_voices_list = read_edge_voices_list()["voice_languages"]
+	for voice in edge_tts_raw_voices_list:
+		edge_tts_voice_languages.append(voice["ShortName"])
+	
+	gtts_raw_voices_list = read_gtts_voices_list()["voice_languages"]
+	gtts_voice_languages.assign(gtts_raw_voices_list.keys())
 
 func repopulate_select_preset():
 	var selected = select_preset_option_button.selected
@@ -111,9 +122,9 @@ func _on_tts_provider_option_button_item_selected(index: int) -> void:
 func load_voice_language_list():
 	var voice_languages
 	if selected_preset.voice_provider == "gtts":
-		voice_languages = GTTS_VOICE_LANGUAGES.duplicate()
+		voice_languages = gtts_voice_languages.duplicate()
 	elif selected_preset.voice_provider == "edge":
-		voice_languages = EDGE_TTS_VOICE_LANGUAGES.duplicate()
+		voice_languages = edge_tts_voice_languages.duplicate()
 	
 	voice_language_line_edit.clear()
 	available_voice_languages.assign(voice_languages)
@@ -178,3 +189,15 @@ func save_presets_to_file():
 
 func _on_save_preset_button_pressed() -> void:
 	save_presets_to_file()
+
+func read_edge_voices_list():
+	var file = FileAccess.open("res://edge_voices.json", FileAccess.READ)
+	return JSON.parse_string(file.get_as_text())
+
+func read_gtts_voices_list():
+	var file = FileAccess.open("res://gtts_voices.json", FileAccess.READ)
+	return JSON.parse_string(file.get_as_text())
+
+func read_presets_file():
+	var file = FileAccess.open("res://presets.json", FileAccess.READ)
+	return JSON.parse_string(file.get_as_text())
