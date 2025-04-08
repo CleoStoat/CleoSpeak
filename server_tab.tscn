@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnwvcq4umcdpr"]
+
+[ext_resource type="Script" uid="uid://b14kelq0rl81d" path="res://server_tab.gd" id="1_l4e3g"]
+
+[node name="ServerTab" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l4e3g")
+metadata/_tab_index = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Port"
+
+[node name="PortLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SelectFolderButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select save folder"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Current save folder: "
+
+[node name="CurrentFolderLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "default"
+
+[node name="RestartServerButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart server"
+
+[node name="SelectFolderFileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Select save folder"
+ok_button_text = "Select Folder"
+dialog_hide_on_ok = true
+file_mode = 2
+access = 2
+
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer/PortLineEdit" to="." method="_on_port_line_edit_text_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/SelectFolderButton" to="." method="_on_select_folder_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/RestartServerButton" to="." method="_on_restart_server_button_pressed"]
+[connection signal="confirmed" from="SelectFolderFileDialog" to="." method="_on_select_folder_file_dialog_confirmed"]
+[connection signal="dir_selected" from="SelectFolderFileDialog" to="." method="_on_select_folder_file_dialog_dir_selected"]
