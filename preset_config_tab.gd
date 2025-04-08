@@ -1,5 +1,6 @@
 extends Control
 
+
 @onready var select_preset_option_button := %SelectPresetOptionButton
 @onready var delete_preset_button := %DeletePresetButton
 @onready var preset_name_line_edit := %PresetNameLineEdit
@@ -14,40 +15,37 @@ var gtts_raw_voices_list: Dictionary
 var gtts_voice_languages = []
 var edge_tts_voice_languages = []
 
-signal presets_changed(new_presets: Array[Preset])
-var _presets: Array[Preset] = []
 
-var presets: Array[Preset]:
-	get:
-		return _presets
-	set(value):
-		_presets = value
-		emit_signal("presets_changed", _presets)
+var presets: Array[Preset] = []
 
-signal selected_preset_index_changed(new_index: int)
-var _selected_preset_index: int
+func update_select_preset_display_data(selected: int = select_preset_option_button.selected):
+	select_preset_option_button.clear()
+	for id in presets.size():
+		select_preset_option_button.add_item(presets[id].name)
+	select_preset_option_button.select(selected)
 
-var selected_preset_index: int:
-	get:
-		return _selected_preset_index
-	set(value):
-		_selected_preset_index = value
-		emit_signal("selected_preset_index_changed", _selected_preset_index)
+func add_preset(preset: Preset):
+	presets.append(preset)
 
-var available_voice_languages: Array[String] = []
+func remove_preset(preset_id: int):
+	# TO-DO: validate id
+	presets.remove_at(preset_id)
 
-var selected_preset: Preset:
-	get:
-		var index = select_preset_option_button.selected
-		if index == -1:
-			return null
-		else:
-			return presets[index]
+func get_selected_preset_index() -> int:
+	return select_preset_option_button.selected
+
 
 func _ready() -> void:
-	for p in read_presets_file():
-		presets.append(Preset.new(p["name"], p["voice_provider"], p["voice_language"], p["slow"]))
-	repopulate_select_preset()
+	for preset_str in read_presets_file():
+		var preset = Preset.new(
+			preset_str["name"],
+			preset_str["voice_provider"],
+			preset_str["voice_language"],
+			preset_str["slow"]
+		)
+		add_preset(preset)
+	update_select_preset_display_data()
+	
 	
 	edge_tts_raw_voices_list = read_edge_voices_list()["voice_languages"]
 	for voice in edge_tts_raw_voices_list:
@@ -56,131 +54,119 @@ func _ready() -> void:
 	gtts_raw_voices_list = read_gtts_voices_list()["voice_languages"]
 	gtts_voice_languages.assign(gtts_raw_voices_list.keys())
 
-func repopulate_select_preset():
-	var selected = select_preset_option_button.selected
-	
-	select_preset_option_button.clear()
-	for preset in presets:
-		select_preset_option_button.add_item(preset.name)
-	
-	select_preset_option_button.selected = selected
 
 func _on_create_new_preset_button_pressed() -> void:
-	var new_presets = presets.duplicate()
-	new_presets.append(Preset.new())
-	presets = new_presets
-	print(presets)
-
-
-func _on_presets_changed(new_presets: Array[Preset]) -> void:
-	repopulate_select_preset()
-
+	add_preset(Preset.new())
+	update_select_preset_display_data()
 
 func _on_delete_preset_button_pressed() -> void:
 	var selected_index = select_preset_option_button.selected
-	
 	if selected_index == -1:
 		return
+	remove_preset(selected_index)
+	update_select_preset_display_data()
 	
-	var new_presets = presets.duplicate()
-	new_presets.remove_at(selected_index)
-	
-	presets = new_presets
-	
-	# Select -1 to clear selection
-	select_preset_option_button.selected = -1
-	select_preset_option_button.emit_signal("item_selected", select_preset_option_button.selected)
+	select_preset_option_button.emit_signal("item_selected", -1)
 
 
 func _on_select_preset_option_button_item_selected(index: int) -> void:
-	selected_preset_index = index
-	print("selected ", index)
+	if index == -1:
+		# Clear data from fields and disable
+		pass
+	else:
+		var preset = presets[index]
+		
+		preset_name_line_edit.text = preset.name
+		
+		if preset.voice_provider == "gtts":
+			tts_provider_option_button.selected = 0
+		elif preset.voice_provider == "edge":
+			tts_provider_option_button.selected = 1
+		
+		update_voice_list()
+		update_selected_voice_label()
+		slow_check_button.button_pressed = preset.slow
+		clear_voice_filter_text()
 
+func get_voice_language_filter_text():
+	return voice_language_line_edit.text
 
-func _on_preset_name_line_edit_text_changed(new_text: String) -> void:
-	var index = select_preset_option_button.selected
+func clear_voice_filter_text():
+	voice_language_line_edit.clear()
+
+func update_voice_list():
+	voice_language_item_list.clear()
+	var index = get_selected_preset_index()
 	if index == -1:
 		return
-	else:
-		presets[index].name = new_text
-		repopulate_select_preset()
-
-
-
-func _on_voice_language_line_edit_text_changed(new_text: String) -> void:
-	filter_voices()
-
-
-func _on_tts_provider_option_button_item_selected(index: int) -> void:
+	var preset = presets[index]
 	
-	if index == 0:
-		selected_preset.voice_provider = "gtts"
-	elif index == 1:
-		selected_preset.voice_provider = "edge"
-	load_voice_language_list()
-
-func load_voice_language_list():
-	var voice_languages
-	if selected_preset.voice_provider == "gtts":
-		voice_languages = gtts_voice_languages.duplicate()
-	elif selected_preset.voice_provider == "edge":
-		voice_languages = edge_tts_voice_languages.duplicate()
+	var available_voice_langs: Array[String] = []
+	if preset.voice_provider == "gtts":
+		available_voice_langs.assign(gtts_voice_languages.duplicate())
+	elif preset.voice_provider == "edge":
+		available_voice_langs.assign(edge_tts_voice_languages.duplicate())
 	
-	voice_language_line_edit.clear()
-	available_voice_languages.assign(voice_languages)
-	filter_voices()
 	
-
-
-func filter_voices():
-	voice_language_item_list.clear()
-	
-	var filter = voice_language_line_edit.text
-	
-	var filtered_voices = available_voice_languages.filter(
+	var filter = get_voice_language_filter_text()
+	var filtered_voice_langs = available_voice_langs.filter(
 		func(voice: String): 
 			return voice.to_lower().begins_with(filter.to_lower())
 	)
 	
-	for voice in filtered_voices:
-		voice_language_item_list.add_item(voice)
+	for voice_index in filtered_voice_langs.size():
+		voice_language_item_list.add_item(filtered_voice_langs[voice_index])
+		if filtered_voice_langs[voice_index] == preset.voice_language:
+			voice_language_item_list.select(voice_index)
 
-func update_selected_voice_language_label():
-	selected_voice_label.text = selected_preset.voice_language
+func _on_preset_name_line_edit_text_changed(new_text: String) -> void:
+	var index = get_selected_preset_index()
+	if index == -1:
+		return
+	else:
+		presets[index].name = new_text
+		update_select_preset_display_data()
+
+
+
+func _on_voice_language_line_edit_text_changed(new_text: String) -> void:
+	update_voice_list()
+
+
+func _on_tts_provider_option_button_item_selected(index: int) -> void:
+	var preset = presets[get_selected_preset_index()]
+	if index == 0:
+		preset.voice_provider = "gtts"
+	elif index == 1:
+		preset.voice_provider = "edge"
+	clear_voice_filter_text()
+	update_voice_list()
+
+func update_selected_voice_label():
+	var index = get_selected_preset_index()
+	if index == -1:
+		selected_voice_label.text = ""
+	else:
+		selected_voice_label.text = presets[index].voice_language
 
 func _on_voice_language_item_list_item_selected(index: int) -> void:
 	if index == -1:
 		return
 	else:
-		selected_preset.voice_language = voice_language_item_list.get_item_text(index)
-		update_selected_voice_language_label()
-
+		var preset_index = get_selected_preset_index()
+		if preset_index == -1:
+			return
+		else:
+			presets[preset_index].voice_language = voice_language_item_list.get_item_text(index)
+			update_selected_voice_label()
 
 func _on_slow_check_button_pressed() -> void:
-	selected_preset.slow = slow_check_button.button_pressed
-
-func _on_selected_preset_index_changed(new_index: int) -> void:
-	if new_index == -1:
-		preset_name_line_edit.text = ""
+	var index = get_selected_preset_index()
+	if index == -1:
+		return
 	else:
-		load_preset_for_edit(presets[new_index])
+		presets[index].slow = slow_check_button.button_pressed
 
-func load_preset_for_edit(preset: Preset):
-	preset_name_line_edit.text = preset.name
-	
-	if preset.voice_provider == "gtts":
-		tts_provider_option_button.select(0)
-	else: 
-		tts_provider_option_button.select(1)
-	load_voice_language_list()
-	
-	update_selected_voice_language_label()
-	
-	for i in voice_language_item_list.item_count:
-		if voice_language_item_list.get_item_text(i) == preset.voice_language:
-			voice_language_item_list.select(i)
-	
-	slow_check_button.button_pressed = preset.slow
 
 func save_presets_to_file():
 	var file = FileAccess.open("res://presets.json", FileAccess.WRITE)
