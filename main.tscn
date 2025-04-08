@@ -22,59 +22,54 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="TabContainer" type="TabContainer" parent="PanelContainer"]
 layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="TabBar" type="TabBar" parent="PanelContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
 current_tab = 0
-tab_count = 3
-tab_0/title = "Text to speech"
-tab_1/title = "Presets"
-tab_2/title = "Server"
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+[node name="TTSTab" type="Control" parent="PanelContainer/TabContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/TabContainer/TTSTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="TTSTab" type="Control" parent="PanelContainer/VBoxContainer/MarginContainer"]
-unique_name_in_owner = true
-visible = false
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/TabContainer/TTSTab/MarginContainer"]
 layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/TTSTab"]
-layout_mode = 2
-offset_right = 1132.0
-offset_bottom = 582.0
 theme_override_constants/separation = 10
 
-[node name="TTSTextEdit" type="TextEdit" parent="PanelContainer/VBoxContainer/MarginContainer/TTSTab/VBoxContainer"]
+[node name="TTSTextEdit" type="TextEdit" parent="PanelContainer/TabContainer/TTSTab/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Input text"
 
-[node name="TTSSubmitButton" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/TTSTab/VBoxContainer"]
+[node name="TTSSubmitButton" type="Button" parent="PanelContainer/TabContainer/TTSTab/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Submit"
 
-[node name="PresetConfigTab" parent="PanelContainer/VBoxContainer/MarginContainer" instance=ExtResource("2_0xm2m")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="ServerTab" type="Control" parent="PanelContainer/VBoxContainer/MarginContainer"]
+[node name="PresetConfigTab" parent="PanelContainer/TabContainer" instance=ExtResource("2_0xm2m")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="ServerTab" type="Control" parent="PanelContainer/TabContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 unique_name_in_owner = true
@@ -83,8 +78,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 stream = SubResource("AudioStreamMP3_ig7tw")
 
-[connection signal="tab_changed" from="PanelContainer/VBoxContainer/HBoxContainer/TabBar" to="." method="_on_tab_bar_tab_changed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/TTSTab/VBoxContainer/TTSSubmitButton" to="." method="_on_tts_submit_button_pressed"]
+[connection signal="pressed" from="PanelContainer/TabContainer/TTSTab/MarginContainer/VBoxContainer/TTSSubmitButton" to="." method="_on_tts_submit_button_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
 
-[editable path="PanelContainer/VBoxContainer/MarginContainer/PresetConfigTab"]
+[editable path="PanelContainer/TabContainer/PresetConfigTab"]

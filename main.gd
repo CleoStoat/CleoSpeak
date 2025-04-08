@@ -1,27 +1,12 @@
 extends Control
 
-@onready var tabs_dict = {
-	0: %TTSTab,
-	1: %PresetConfigTab,
-	2: %ServerTab,
-}
 
 @onready var player := %AudioStreamPlayer
 
 const PYTHONPROJECT_PATH = ".\\pythonproject\\"
 
-
-
 func _ready() -> void:
 	pass
-
-
-func _on_tab_bar_tab_changed(tab: int) -> void:
-	for i in tabs_dict:
-		if i == tab:
-			tabs_dict[i].show()
-		else:
-			tabs_dict[i].hide()
 
 
 func _on_tts_submit_button_pressed() -> void:
@@ -31,8 +16,6 @@ func _on_tts_submit_button_pressed() -> void:
 	var data = {"text": tts_text, "voice_language": "en", "slow": false}
 	var body = JSON.stringify(data)
 	%HTTPRequest.request(url, headers, HTTPClient.METHOD_POST, body)
-	
-
 
 func _on_http_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if response_code == 200:
