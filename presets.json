@@ -1,20 +1,20 @@
 [
-	{
-		"name": "French",
-		"slow": false,
-		"voice_language": "fr-FR-VivienneMultilingualNeural",
-		"voice_provider": "edge"
-	},
-	{
-		"name": "English",
-		"slow": false,
-		"voice_language": "en",
-		"voice_provider": "gtts"
-	},
-	{
-		"name": "Español",
-		"slow": false,
-		"voice_language": "es-AR-ElenaNeural",
-		"voice_provider": "edge"
-	}
+  {
+    "name": "French",
+    "slow": false,
+    "voice_language": "fr-CA-SylvieNeural",
+    "voice_provider": "edge"
+  },
+  {
+    "name": "English",
+    "slow": false,
+    "voice_language": "en",
+    "voice_provider": "gtts"
+  },
+  {
+    "name": "Español",
+    "slow": false,
+    "voice_language": "es-AR-ElenaNeural",
+    "voice_provider": "edge"
+  }
 ]

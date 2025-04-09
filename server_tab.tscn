@@ -36,8 +36,10 @@ layout_mode = 2
 text = "Port"
 
 [node name="PortLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+text = "8000"
 
 [node name="SelectFolderButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -61,8 +63,8 @@ text = "Restart server"
 
 [node name="SelectFolderFileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
-title = "Select save folder"
-ok_button_text = "Select Folder"
+title = "Open a Directory"
+ok_button_text = "Select Current Folder"
 dialog_hide_on_ok = true
 file_mode = 2
 access = 2

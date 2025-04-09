@@ -26,15 +26,15 @@ grow_vertical = 2
 
 [node name="TabContainer" type="TabContainer" parent="PanelContainer"]
 layout_mode = 2
-current_tab = 1
+current_tab = 0
 
 [node name="TTSTab" parent="PanelContainer/TabContainer" instance=ExtResource("2_1bvp3")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="PresetConfigTab" parent="PanelContainer/TabContainer" instance=ExtResource("2_0xm2m")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -50,6 +50,12 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 stream = SubResource("AudioStreamMP3_ig7tw")
 
+[node name="HealthCheckHTTPRequest" type="HTTPRequest" parent="."]
+unique_name_in_owner = true
+
+[connection signal="tts_submited" from="PanelContainer/TabContainer/TTSTab" to="." method="_on_tts_tab_tts_submited"]
+[connection signal="presets_saved" from="PanelContainer/TabContainer/PresetConfigTab" to="." method="_on_preset_config_tab_presets_saved"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="request_completed" from="HealthCheckHTTPRequest" to="." method="_on_health_check_http_request_request_completed"]
 
 [editable path="PanelContainer/TabContainer/PresetConfigTab"]

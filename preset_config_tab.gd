@@ -18,6 +18,8 @@ var edge_tts_voice_languages = []
 
 var presets: Array[Preset] = []
 
+signal presets_saved
+
 func update_select_preset_display_data(selected: int = select_preset_option_button.selected):
 	select_preset_option_button.clear()
 	for id in presets.size():
@@ -175,6 +177,7 @@ func save_presets_to_file():
 
 func _on_save_preset_button_pressed() -> void:
 	save_presets_to_file()
+	emit_signal("presets_saved")
 
 func read_edge_voices_list():
 	var file = FileAccess.open("res://edge_voices.json", FileAccess.READ)
