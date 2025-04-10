@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://726f1vsosmqs"]
+[gd_scene load_steps=7 format=3 uid="uid://726f1vsosmqs"]
 
 [ext_resource type="Script" uid="uid://q8gc55wo0jlc" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://douiiyuinttg8" path="res://preset_config_tab.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://o5oml0kqs1v1" path="res://tts_tab.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bnwvcq4umcdpr" path="res://server_tab.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://bqm13lsn1106b" path="res://pet_windows_tab.tscn" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://cydmctvluylu5" path="res://pet.tscn" id="5_lquwl"]
 
 [node name="MainControl" type="Control"]
@@ -25,10 +26,11 @@ grow_vertical = 2
 
 [node name="TabContainer" type="TabContainer" parent="PanelContainer"]
 layout_mode = 2
-current_tab = 0
+current_tab = 3
 
 [node name="TTSTab" parent="PanelContainer/TabContainer" instance=ExtResource("2_1bvp3")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="PresetConfigTab" parent="PanelContainer/TabContainer" instance=ExtResource("2_0xm2m")]
@@ -42,6 +44,10 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
+[node name="PetWindowsTab" parent="PanelContainer/TabContainer" instance=ExtResource("5_7mycd")]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="HealthCheckHTTPRequest" type="HTTPRequest" parent="."]
 unique_name_in_owner = true
 
@@ -51,5 +57,3 @@ unique_name_in_owner = true
 [connection signal="tts_submited" from="PanelContainer/TabContainer/TTSTab" to="." method="_on_tts_tab_tts_submited"]
 [connection signal="presets_saved" from="PanelContainer/TabContainer/PresetConfigTab" to="." method="_on_preset_config_tab_presets_saved"]
 [connection signal="request_completed" from="HealthCheckHTTPRequest" to="." method="_on_health_check_http_request_request_completed"]
-
-[editable path="PanelContainer/TabContainer/PresetConfigTab"]
