@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cydmctvluylu5"]
+
+[ext_resource type="Script" uid="uid://brsbmdqqwjre7" path="res://pet.gd" id="1_34gfr"]
+
+[node name="Pet" type="Node"]
+script = ExtResource("1_34gfr")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

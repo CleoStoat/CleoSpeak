@@ -3,6 +3,10 @@ extends Control
 var selected_dir: String = ""
 var port: String = ""
 
+func _ready() -> void:
+	port = str(TTSPythonServer.server_port)
+	%PortLineEdit.text = port
+
 func _on_select_folder_button_pressed() -> void:
 	%SelectFolderFileDialog.show()
 

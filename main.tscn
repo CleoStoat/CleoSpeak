@@ -4,8 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://douiiyuinttg8" path="res://preset_config_tab.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://o5oml0kqs1v1" path="res://tts_tab.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bnwvcq4umcdpr" path="res://server_tab.tscn" id="3_h2yge"]
-
-[sub_resource type="AudioStreamMP3" id="AudioStreamMP3_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://cydmctvluylu5" path="res://pet.tscn" id="5_lquwl"]
 
 [node name="MainControl" type="Control"]
 layout_mode = 3
@@ -43,19 +42,14 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
-unique_name_in_owner = true
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-unique_name_in_owner = true
-stream = SubResource("AudioStreamMP3_ig7tw")
-
 [node name="HealthCheckHTTPRequest" type="HTTPRequest" parent="."]
+unique_name_in_owner = true
+
+[node name="Pet" parent="." instance=ExtResource("5_lquwl")]
 unique_name_in_owner = true
 
 [connection signal="tts_submited" from="PanelContainer/TabContainer/TTSTab" to="." method="_on_tts_tab_tts_submited"]
 [connection signal="presets_saved" from="PanelContainer/TabContainer/PresetConfigTab" to="." method="_on_preset_config_tab_presets_saved"]
-[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
 [connection signal="request_completed" from="HealthCheckHTTPRequest" to="." method="_on_health_check_http_request_request_completed"]
 
 [editable path="PanelContainer/TabContainer/PresetConfigTab"]
