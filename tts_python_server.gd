@@ -36,3 +36,8 @@ func restart_server():
 	terminate_process()
 	print("Starting new process...")
 	start_server()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		terminate_process()
+		get_tree().quit()
